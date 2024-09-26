@@ -1,19 +1,24 @@
 #include<bits/stdc++.h>
 using namespace std;
-void convertToMatrix(int n, vector<int> adj[]){
+void convertToMatrix(int n, vector<pair<int,int>> adj[]){
     int a[n][n];
     for(int i=0;i<n;i++){
         for(int j=0;j<n;j++){
-            a[i][j] = 0;
+            if(i == j)
+                a[i][j] = 1;
+            else
+                a[i][j] = 0;
         }
     }
 
     for(int i=0;i<n;i++){
-        for(int child : adj[i]){
-            a[i][child] = 1;
+        for(pair<int,int> child : adj[i]){
+            int node = child.first;
+            int cost = child.second;
+            a[i][node] = cost;
         }
     }
-    cout<<"OUTPUT :: "<<endl;
+
     for(int i=0;i<n;i++){
         for(int j=0;j<n;j++){
             cout<<a[i][j]<<" ";
@@ -25,12 +30,12 @@ int main()
 {
     int n,e;
     cin>>n>>e;
-    vector<int> adj[n];
+    vector<pair<int,int>> adj[n];
     while(e--){
-        int a,b;
-        cin>>a>>b;
-        adj[a].push_back(b);
-        adj[b].push_back(a);
+        int a,b,c;
+        cin>>a>>b>>c;
+        adj[a].push_back({b,c});
+        adj[b].push_back({a,c});
     }
     convertToMatrix(n,adj);
     return 0;
